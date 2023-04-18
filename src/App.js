@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require('body-parser');
+const error = require("./middlewares/ErrorHandler");
 
 
 
@@ -69,11 +70,13 @@ app.use(cors({
 
 
 
-//************************************************************** */
+//***************************All Routes************************** */
 
 
+const testRouter = require("./routes/TestRoute");
 
 
+app.use("" , testRouter)
 
 
 
@@ -112,3 +115,5 @@ app.listen(port, () => {
     console.log("App listening on port 3001");
 
 });
+
+app.use(error);
