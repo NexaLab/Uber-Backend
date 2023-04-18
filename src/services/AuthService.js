@@ -43,8 +43,8 @@ module.exports = {
 
 
                 req.body.password = await bcrypt.hash(req.body.password, 10);
-                const userData = await userService.saveUser(req, res, next);
-                return res.send(new GenericResponse("User has been signed up successfully", userData));
+                userService.saveUser(req, res, next);
+                return res.send(new GenericResponse("User has been signed up successfully", null));
 
             }
 
