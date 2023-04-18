@@ -16,9 +16,9 @@ module.exports = {
 
         if (
             req.body.email == null ||
-            req.body.email.length < 0 ||
+            req.body.email.length == 0 ||
             req.body.password == null ||
-            req.body.password.length < 0
+            req.body.password.length == 0
         ) {
 
 
@@ -30,9 +30,23 @@ module.exports = {
         else {
 
 
-            req.body.password = await bcrypt.hash(req.body.password, 10);
-            const userData = await userService.saveUser(req, res, next);
-            return res.send(new GenericResponse("User has been signed up successfully", userData));
+
+            const isUserExist = await userService.getUser(req, res, next);
+
+
+            if (isUserExist.length != 0) {
+                next(new BadRequestException("User already exists with this email"));
+            }
+
+
+            else {
+
+
+                req.body.password = await bcrypt.hash(req.body.password, 10);
+                const userData = await userService.saveUser(req, res, next);
+                return res.send(new GenericResponse("User has been signed up successfully", userData));
+
+            }
 
         }
     }

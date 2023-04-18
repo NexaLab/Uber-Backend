@@ -71,13 +71,13 @@ app.use(cors({
 //************************************************************** */
 
 
-const appRoute = require("./routes/AuthRoute");
+const authRoute = require("./routes/AuthRoute");
 
 
 
 
 
-app.use("", appRoute);
+app.use("", authRoute);
 
 
 

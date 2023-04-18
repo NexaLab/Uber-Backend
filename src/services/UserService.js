@@ -22,7 +22,18 @@ module.exports = {
         }
 
 
-        const response = await userRepo.saveUser(userData);
+        userRepo.saveUser(userData);
+        return;
+    },
+
+
+
+
+    getUser: async (req, res, next) => {
+
+
+        const email = req.body.email
+        const response = await userRepo.getUser(email);
         return response;
     }
 
