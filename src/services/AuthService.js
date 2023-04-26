@@ -2,8 +2,7 @@ const userService = require("../services/UserService");
 const bcrypt = require("bcryptjs");
 const BadRequestException = require("../exceptions/BadRequestException");
 const GenericResponse = require("../dto/GenericResponse");
-
-
+const jwt = require("../helpers/JwtProcessor");
 
 module.exports = {
   login: async (req, res, next) => {
@@ -17,7 +16,6 @@ module.exports = {
     } else {
       const isUserExist = await userService.getUser(req, res, next);
 
-      console.log(isUserExist);
 
       if (isUserExist.length == 0) {
         next(new BadRequestException("User doesn't Exist. Please Sign Up."));
@@ -28,12 +26,13 @@ module.exports = {
         if (
           bcrypt
             .compare(recievePass, dbPass)
-            .then((result) => {
+            .then(async (result) => {
               if (result == true) {
+                const token = await jwt.createToken(isUserExist[0]);
                 return res.send(
                   new GenericResponse(
                     "User has been Logged In successfully",
-                    null
+                    token
                   )
                 );
               } else {
