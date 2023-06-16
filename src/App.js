@@ -1,11 +1,15 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
 const bodyParser = require('body-parser');
 const error = require("./middlewares/ErrorHandler");
 
 
 
+
+
+
+
+// **************************        env file config            ******************************
 
 
 
@@ -32,93 +36,139 @@ require("./db-connection/DbConnection");
 
 
 
-
-
-
-//***************************App uses*************************
-
-
-
-
-
-
-
-
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-
-
-
-
-
-
-
-app.use(cors({
-    origin: '*'         // allow requests from this domain
-}));
-
-
-
-
-
-
-
-
-
-
-//************************************************************** */
-
-
-const authRoute = require("./routes/AuthRoute");
-
-
-
-
-
-app.use("", authRoute);
-
-
-
-
-
-
-
-app.get("/api/hello", (req, res) => {
-
-    res.send("App Running");
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const port = process.env.PORT || 3001;
 
 
 
 
 
-app.listen(port, () => {
 
-    console.log("App listening on port 3001");
 
-});
+// ***************             Utilizing all CPU cores          *********************           
 
 
 
 
-app.use(error);
+const os = require("os");
+const cluster = require("cluster");
+
+
+
+
+
+
+
+const cpuNumberOfCores = os.cpus().length;
+
+
+
+
+
+if (cluster.isPrimary) {
+
+
+    for (let cpuCore = 0; cpuCore < cpuNumberOfCores; cpuCore++) {
+
+        cluster.fork();
+
+    }
+
+
+    cluster.on("exit", () => {
+
+        cluster.fork();
+
+    })
+}
+
+
+
+else {
+
+
+
+    const app = express();
+
+
+
+
+
+    //***************************App uses*************************
+
+
+
+
+
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+
+
+
+
+
+
+
+
+    app.use(cors({
+        origin: '*'         // allow requests from this domain
+    }));
+
+
+
+
+
+
+
+
+    //************************************************************** */
+
+
+
+
+    const authRoute = require("./routes/AuthRoute");
+
+
+
+
+    app.use("", authRoute);
+
+
+
+
+
+
+    app.get("/api/hello", (req, res) => {
+
+        res.send("App Running");
+
+    });
+
+
+
+
+
+    app.listen(port, () => {
+
+        console.log("App listening on port 3001");
+
+    });
+
+
+
+
+    app.use(error);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
