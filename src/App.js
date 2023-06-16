@@ -63,7 +63,6 @@ const cpuNumberOfCores = os.cpus().length;
 
 
 
-
 if (cluster.isPrimary) {
 
 
@@ -140,6 +139,17 @@ else {
     app.get("/api/hello", (req, res) => {
 
         res.send("App Running");
+
+    });
+
+
+
+
+    app.get("/api/heavy", (req, res) => {
+
+        setTimeout(() => {
+            res.send("YES BACK");
+        }, 8000);
 
     });
 
