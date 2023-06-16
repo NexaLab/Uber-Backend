@@ -73,10 +73,10 @@ app.use(cors({
 //***************************All Routes************************** */
 
 
-const testRouter = require("./routes/TestRoute");
+const authRouter = require("./routes/AuthRoute");
 
 
-app.use("" , testRouter)
+app.use("", authRouter)
 
 
 
