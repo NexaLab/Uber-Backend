@@ -63,43 +63,43 @@ const cpuNumberOfCores = os.cpus().length;
 
 
 
-// if (cluster.isPrimary) {
+if (cluster.isPrimary) {
 
 
-//     for (let cpuCore = 0; cpuCore < cpuNumberOfCores; cpuCore++) {
+    for (let cpuCore = 0; cpuCore < cpuNumberOfCores; cpuCore++) {
 
-//         cluster.fork();
+        cluster.fork();
 
-//     }
+    }
 
 
-//     cluster.on("exit", () => {
+    cluster.on("exit", () => {
 
-//         cluster.fork();
+        cluster.fork();
 
-//     })
-// }
+    })
+}
 
 
 
-// else {
+else {
 
 
 
-const app = express();
+    const app = express();
 
 
 
 
 
-//***************************App uses*************************
+    //***************************App uses*************************
 
 
 
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
@@ -108,9 +108,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-app.use(cors({
-    origin: '*'         // allow requests from this domain
-}));
+    app.use(cors({
+        origin: '*'         // allow requests from this domain
+    }));
 
 
 
@@ -119,57 +119,57 @@ app.use(cors({
 
 
 
-//************************************************************** */
+    //************************************************************** */
 
 
 
 
-const authRoute = require("./routes/AuthRoute");
+    const authRoute = require("./routes/AuthRoute");
 
 
 
 
-app.use("", authRoute);
+    app.use("", authRoute);
 
 
 
 
 
 
-app.get("/api/hello", (req, res) => {
+    app.get("/api/hello", (req, res) => {
 
-    res.send("App Running 3002");
+        res.send("App Running 3002");
 
-});
+    });
 
 
 
 
-app.get("/api/heavy", (req, res) => {
+    app.get("/api/heavy", (req, res) => {
 
-    setTimeout(() => {
-        res.send("YES BACK");
-    }, 8000);
+        setTimeout(() => {
+            res.send("YES BACK");
+        }, 8000);
 
-});
+    });
 
 
 
 
 
-app.listen(port, () => {
+    app.listen(port, () => {
 
-    console.log("App listening on port 3002");
+        console.log("App listening on port 3002");
 
-});
+    });
 
 
 
 
-app.use(error);
+    app.use(error);
 
 
-// }
+}
 
 
 
