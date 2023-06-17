@@ -36,7 +36,7 @@ require("./db-connection/DbConnection");
 
 
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 
 
@@ -49,8 +49,8 @@ const port = process.env.PORT || 3001;
 
 
 
-// const os = require("os");
-// const cluster = require("cluster");
+const os = require("os");
+const cluster = require("cluster");
 
 
 
@@ -58,7 +58,7 @@ const port = process.env.PORT || 3001;
 
 
 
-// const cpuNumberOfCores = os.cpus().length;
+const cpuNumberOfCores = os.cpus().length;
 
 
 
@@ -138,7 +138,7 @@ app.use("", authRoute);
 
 app.get("/api/hello", (req, res) => {
 
-    res.send("App Running 3001");
+    res.send("App Running 3002");
 
 });
 
@@ -159,7 +159,7 @@ app.get("/api/heavy", (req, res) => {
 
 app.listen(port, () => {
 
-    console.log("App listening on port 3001");
+    console.log("App listening on port 3002");
 
 });
 

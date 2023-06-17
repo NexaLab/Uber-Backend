@@ -60,7 +60,7 @@ class UserRepo {
 
                 if (error) {
 
-                    console.log(error);
+                    return
 
                 }
 
